@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "dispair",
+  "version": "${version}",
+  "name": "dispair",
+  "description": "link YOUR chat with a discord bot",
+  "authors": [
+    "sylvia"
+  ],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/dispair/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "lgbt.sylvia.dispair.Dispair"
+    ]
+  },
+  "mixins": [
+    "dispair.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.18",
+    "minecraft": "1.19.4"
+  }
+}

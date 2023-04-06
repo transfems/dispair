@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.Objects;
 
 public class ScreenshotCommand extends ListenerAdapter {
+    private static final File screenshotDirectory = new File(MinecraftClient.getInstance().runDirectory, "screenshots");
+
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (event.getName().equals("screenshot")) {
@@ -22,7 +24,7 @@ public class ScreenshotCommand extends ListenerAdapter {
                 return;
             }
             minecraft.execute(() -> {
-                File file = new File("/tmp", Util.getFormattedCurrentTime() + ".png");
+                File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
                 TextureUtil.saveScreenshot(file);
 
                 FileUpload fileUpload = FileUpload.fromData(file);

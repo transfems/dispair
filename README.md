@@ -28,7 +28,7 @@ Client-sided Minecraft <-> Discord chat link.
 ![image](https://github.com/transfems/dispair/assets/92600501/77b84342-cbee-4063-bf8a-bab54ba46106)
 
 ## How to use
-1. Install the Fabric mod (No Fabric API needed!)
+1. Install the [Fabric mod](https://github.com/transfems/dispair/releases) (No Fabric API needed!)
 2. Create a [webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) and copy down the URL.
 3. Make and invite the Discord bot (tutorial [here](https://discordpy.readthedocs.io/en/stable/discord.html)) and take note the token.
 4. Copy the [id](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) of the channel you made the webhook in earlier.

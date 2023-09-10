@@ -1,21 +1,14 @@
 package lgbt.sylvia.dispair.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import lgbt.sylvia.dispair.Dispair;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.render.*;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.texture.NativeImageBackedTexture;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 import java.awt.*;
-
-import lgbt.sylvia.dispair.util.TextureUtil;
 
 public class ConfigScreen extends Screen {
     public ConfigScreen() {
@@ -55,23 +48,20 @@ public class ConfigScreen extends Screen {
         this.addDrawableChild(activityField);
     }
 
-    private void drawCentered(MatrixStack matrices, String text, int y, int color) {
-        int x = (this.width/2) - (this.textRenderer.getWidth(text)/2);
-        this.textRenderer.drawWithShadow(matrices, text, x, y, color);
+    private void drawCentered(DrawContext context, String text, int y, int color) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        context.drawCenteredTextWithShadow(client.textRenderer, text, this.width / 2, y, color);
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        int width = client.getWindow().getScaledWidth();
-        int height = client.getWindow().getScaledHeight();
-        TextureUtil.renderFilledQuad(matrices, 0, 0, width, height, 17, 17, 27, 255);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(0x11111b).getRGB());
 
-        super.render(matrices, mouseX, mouseY, delta);
-        drawCentered(matrices, "Dispair", 5, Color.WHITE.getRGB());
-        drawCentered(matrices, "Bot Token", 20, Color.WHITE.getRGB());
-        drawCentered(matrices, "Webhook URI", 60, Color.WHITE.getRGB());
-        drawCentered(matrices, "Channel", 100, Color.WHITE.getRGB());
-        drawCentered(matrices, "Status", 140, Color.WHITE.getRGB());
+        super.render(context, mouseX, mouseY, delta);
+        drawCentered(context, "Dispair", 5, Color.WHITE.getRGB());
+        drawCentered(context, "Bot Token", 20, Color.WHITE.getRGB());
+        drawCentered(context, "Webhook URI", 60, Color.WHITE.getRGB());
+        drawCentered(context, "Channel", 100, Color.WHITE.getRGB());
+        drawCentered(context, "Status", 140, Color.WHITE.getRGB());
     }
 }

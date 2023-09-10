@@ -1,7 +1,6 @@
 package lgbt.sylvia.dispair;
 
 import com.google.gson.JsonObject;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;

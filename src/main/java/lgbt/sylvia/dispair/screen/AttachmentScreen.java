@@ -2,6 +2,7 @@ package lgbt.sylvia.dispair.screen;
 
 import lgbt.sylvia.dispair.util.TextureUtil;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.Window;
@@ -25,11 +26,9 @@ public class AttachmentScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        MinecraftClient minecraft = MinecraftClient.getInstance();
-        Window window = minecraft.getWindow();
-        TextureUtil.renderFilledQuad(matrices, 0, 0, window.getScaledWidth(), window.getScaledHeight(), 17, 17, 27, 255);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), 286333866);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     private void initWidgets(String uri) {

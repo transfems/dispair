@@ -29,8 +29,8 @@ public class ScreenshotMixin {
     private static void takeScreenshot(Framebuffer framebuffer, CallbackInfoReturnable<NativeImage> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
         File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
-        if (!file.exists()) return;
         FileUpload fileUpload = FileUpload.fromData(TextureUtil.saveScreenshot(file));
+        if (!file.exists()) return;
         TextChannel channel = Dispair.jda.getChannelById(TextChannel.class, Dispair.config.channel);
         if (client.player == null) return;
         if (channel != null) {

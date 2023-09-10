@@ -9,6 +9,9 @@ public class CheckboxEventWidget extends CheckboxWidget {
     public CheckboxEventWidget(int x, int y, int width, int height, Text message, boolean checked, CheckAction press) {
         super(x, y, width, height, message, checked);
         this.press = press;
+        if (checked && !this.isChecked()) { // hacky fix since "checked" is private
+            super.onPress();
+        }
     }
 
     @Override

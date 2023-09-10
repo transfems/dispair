@@ -58,7 +58,7 @@ public class PlayerCommand extends ListenerAdapter {
             event.replyEmbeds(embed).queue();
 
             if (minecraft.player != null) {
-                Text alert = Text.of(String.format("§l§a%s §r§ajust wants to see how ur doing :3", Objects.requireNonNull(event.getInteraction().getMember()).getEffectiveName()));
+                Text alert = Text.of(String.format("§l§a%s §r§ajust wants to see how you're doing! :3", Objects.requireNonNull(event.getInteraction().getMember()).getEffectiveName()));
                 MessageListener.lastSentToPlayer = alert;
                 minecraft.player.sendMessage(alert);
             }

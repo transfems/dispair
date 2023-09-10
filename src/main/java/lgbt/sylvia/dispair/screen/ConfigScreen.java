@@ -1,5 +1,6 @@
 package lgbt.sylvia.dispair.screen;
 
+import lgbt.sylvia.dispair.Configuration;
 import lgbt.sylvia.dispair.Dispair;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -39,6 +40,7 @@ public class ConfigScreen extends Screen {
             Dispair.config.webhook = webhookField.getText();
             Dispair.config.channel = channelField.getText();
             Dispair.config.activity = activityField.getText();
+            Configuration.save(Dispair.config);
             this.close();
         }).position((width/2)-75, height-28).build());
 
@@ -63,5 +65,6 @@ public class ConfigScreen extends Screen {
         drawCentered(context, "Webhook URI", 60, Color.WHITE.getRGB());
         drawCentered(context, "Channel", 100, Color.WHITE.getRGB());
         drawCentered(context, "Status", 140, Color.WHITE.getRGB());
+        drawCentered(context, "Changes apply after restart!", context.getScaledWindowHeight() - 42, new Color(0xf38ba8).getRGB());
     }
 }

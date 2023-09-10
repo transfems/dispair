@@ -23,12 +23,15 @@ public class ScreenshotCommand extends ListenerAdapter {
                 event.reply("They are configuring Dispair, no peeking!").queue();
                 return;
             }
+
+            event.deferReply().queue();
+
             minecraft.execute(() -> {
                 File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
                 TextureUtil.saveScreenshot(file);
 
                 FileUpload fileUpload = FileUpload.fromData(file);
-                event.replyFiles(fileUpload).queue();
+                event.getHook().sendFiles(fileUpload).queue();
             });
 
             if (minecraft.player != null) {

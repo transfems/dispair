@@ -26,7 +26,7 @@ public class PauseScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
-        CheckboxEventWidget widget = new CheckboxEventWidget(4, 4, 20, 20, getMessage(), Dispair.config.muted, new CheckAction() {
+        CheckboxEventWidget widget = new CheckboxEventWidget(4, 4, 20, 20, getMessage(), !Dispair.config.muted, new CheckAction() {
             @Override
             public void run(CheckboxWidget widget) {
                 Dispair.config.muted = !widget.isChecked();

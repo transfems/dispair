@@ -63,7 +63,7 @@ public class MessageListener extends ListenerAdapter {
                 .setStyle(
                         Style.EMPTY
                                 .withClickEvent(clickEvent)
-                                .withUnderline(true)
+                                .withBold(false)
                                 .withColor(Formatting.BLUE));
     }
 

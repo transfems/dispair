@@ -23,7 +23,7 @@ public class PauseScreenMixin extends Screen {
     }
 
     @Unique private Text getMessage() {
-        return Text.of("Dispair is " + (Dispair.config.active ? "§cmuted§r!" : "§aactive§r!"));
+        return Text.of("Dispair is " + (Dispair.config.active ? "§aactive§r!" : "§cmuted§r!"));
     }
 
     @Inject(method = "init", at = @At("TAIL"))

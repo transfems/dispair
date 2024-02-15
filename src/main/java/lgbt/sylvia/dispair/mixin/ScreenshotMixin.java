@@ -31,6 +31,7 @@ public class ScreenshotMixin {
     @Inject(at = @At(value = "HEAD"), method = "takeScreenshot")
     private static void takeScreenshot(
             Framebuffer framebuffer, CallbackInfoReturnable<NativeImage> cir) {
+        if (!Dispair.config.active) return;
         MinecraftClient client = MinecraftClient.getInstance();
         File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
         FileUpload fileUpload = FileUpload.fromData(ScreenshotHelper.write(file));

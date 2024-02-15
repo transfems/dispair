@@ -1,5 +1,10 @@
+/*
+ (C)2024 sylvxa
+ All Rights Reserved
+*/
 package lgbt.sylvia.dispair.command;
 
+import java.io.File;
 import lgbt.sylvia.dispair.listener.MessageListener;
 import lgbt.sylvia.dispair.screen.ConfigScreen;
 import lgbt.sylvia.dispair.util.ScreenshotHelper;
@@ -12,11 +17,10 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
-import java.io.File;
-import java.util.Objects;
 
 public class ScreenshotCommand extends ListenerAdapter {
-    private static final File screenshotDirectory = new File(MinecraftClient.getInstance().runDirectory, "screenshots");
+    private static final File screenshotDirectory =
+            new File(MinecraftClient.getInstance().runDirectory, "screenshots");
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -29,22 +33,25 @@ public class ScreenshotCommand extends ListenerAdapter {
 
         event.deferReply().queue();
 
-        minecraft.execute(() -> {
-            File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
-            ScreenshotHelper.write(file);
+        minecraft.execute(
+                () -> {
+                    File file =
+                            new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
+                    ScreenshotHelper.write(file);
 
-            FileUpload fileUpload = FileUpload.fromData(file);
-            event.getHook().sendFiles(fileUpload).queue();
-        });
+                    FileUpload fileUpload = FileUpload.fromData(file);
+                    event.getHook().sendFiles(fileUpload).queue();
+                });
 
         Member member = event.getInteraction().getMember();
         if (member == null) return;
         String username = member.getEffectiveName();
 
         if (minecraft.player != null) {
-            Text alert = Text.translatable("dispair.screenshot.notification", username)
-                    .copy()
-                    .setStyle(Style.EMPTY.withColor(Formatting.GREEN));
+            Text alert =
+                    Text.translatable("dispair.screenshot.notification", username)
+                            .copy()
+                            .setStyle(Style.EMPTY.withColor(Formatting.GREEN));
             MessageListener.lastSentToPlayer = alert;
             minecraft.player.sendMessage(alert);
         }

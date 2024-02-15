@@ -1,5 +1,10 @@
+/*
+ (C)2024 sylvxa
+ All Rights Reserved
+*/
 package lgbt.sylvia.dispair.command;
 
+import java.awt.*;
 import lgbt.sylvia.dispair.listener.MessageListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -13,9 +18,6 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
-
-import java.awt.*;
-import java.util.Objects;
 
 public class PlayerCommand extends ListenerAdapter {
     @Override
@@ -31,7 +33,8 @@ public class PlayerCommand extends ListenerAdapter {
 
         MinecraftServer server = minecraft.getServer();
         if (server == null) {
-            event.reply("They aren't in a world, which doesn't make sense but it can happen.").queue();
+            event.reply("They aren't in a world, which doesn't make sense but it can happen.")
+                    .queue();
             return;
         }
 
@@ -39,7 +42,8 @@ public class PlayerCommand extends ListenerAdapter {
 
         String healthDisplay = String.format("%s/%s", player.getHealth(), player.getMaxHealth());
         String hungerDisplay = String.format("%s/%s", player.getHungerManager().getFoodLevel(), 20);
-        String positionDisplay = String.format("%s, %s, %s", position.getX(), position.getY(), position.getZ());
+        String positionDisplay =
+                String.format("%s, %s, %s", position.getX(), position.getY(), position.getZ());
         String worldDisplay;
         if (server.isSingleplayer()) {
             worldDisplay = server.getSaveProperties().getLevelName();
@@ -47,26 +51,34 @@ public class PlayerCommand extends ListenerAdapter {
             worldDisplay = server.getServerIp();
         }
 
-        MessageEmbed embed = new EmbedBuilder()
-                .setTitle(player.getDisplayName().getString())
-                .addField("❤️ Health", healthDisplay, true)
-                .addField("\uD83E\uDD55 Hunger", hungerDisplay, true)
-                .addField("\uD83D\uDCCD Position", positionDisplay, true)
-                .addField("\uD83C\uDF00 Dimension", player.clientWorld.getDimension().effects().getPath(), true)
-                .addField("⏰ Day", String.valueOf(player.clientWorld.getTimeOfDay() / 24000L), true)
-                .addField("\uD83C\uDF0E World", worldDisplay, true)
-                .setColor(Color.PINK)
-                .setThumbnail("https://minotar.net/helm/" + player.getName().getString())
-                .build();
+        MessageEmbed embed =
+                new EmbedBuilder()
+                        .setTitle(player.getDisplayName().getString())
+                        .addField("❤️ Health", healthDisplay, true)
+                        .addField("\uD83E\uDD55 Hunger", hungerDisplay, true)
+                        .addField("\uD83D\uDCCD Position", positionDisplay, true)
+                        .addField(
+                                "\uD83C\uDF00 Dimension",
+                                player.clientWorld.getDimension().effects().getPath(),
+                                true)
+                        .addField(
+                                "⏰ Day",
+                                String.valueOf(player.clientWorld.getTimeOfDay() / 24000L),
+                                true)
+                        .addField("\uD83C\uDF0E World", worldDisplay, true)
+                        .setColor(Color.PINK)
+                        .setThumbnail("https://minotar.net/helm/" + player.getName().getString())
+                        .build();
         event.replyEmbeds(embed).queue();
 
         Member member = event.getInteraction().getMember();
         if (member == null) return;
         String username = member.getEffectiveName();
 
-        Text notification = Text.translatable("dispair.player.notification", username)
-                .copy()
-                .setStyle(Style.EMPTY.withColor(Formatting.GREEN));
+        Text notification =
+                Text.translatable("dispair.player.notification", username)
+                        .copy()
+                        .setStyle(Style.EMPTY.withColor(Formatting.GREEN));
         MessageListener.lastSentToPlayer = notification;
         player.sendMessage(notification);
     }

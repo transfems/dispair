@@ -1,5 +1,11 @@
+/*
+ (C)2024 sylvxa
+ All Rights Reserved
+*/
 package lgbt.sylvia.dispair.mixin;
 
+import java.io.File;
+import java.util.function.Consumer;
 import lgbt.sylvia.dispair.Dispair;
 import lgbt.sylvia.dispair.util.ScreenshotHelper;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -17,16 +23,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.io.File;
-import java.util.function.Consumer;
-
 @Mixin(ScreenshotRecorder.class)
 public class ScreenshotMixin {
-    @Unique
-    private static final File screenshotDirectory = new File(MinecraftClient.getInstance().runDirectory, "screenshots");
+    @Unique private static final File screenshotDirectory =
+            new File(MinecraftClient.getInstance().runDirectory, "screenshots");
 
     @Inject(at = @At(value = "HEAD"), method = "takeScreenshot")
-    private static void takeScreenshot(Framebuffer framebuffer, CallbackInfoReturnable<NativeImage> cir) {
+    private static void takeScreenshot(
+            Framebuffer framebuffer, CallbackInfoReturnable<NativeImage> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
         File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
         FileUpload fileUpload = FileUpload.fromData(ScreenshotHelper.write(file));
@@ -41,7 +45,12 @@ public class ScreenshotMixin {
         }
     }
 
-    @ModifyVariable(at = @At(value = "HEAD"), method = "saveScreenshot(Ljava/io/File;Lnet/minecraft/client/gl/Framebuffer;Ljava/util/function/Consumer;)V", ordinal = 0, argsOnly = true)
+    @ModifyVariable(
+            at = @At(value = "HEAD"),
+            method =
+                    "saveScreenshot(Ljava/io/File;Lnet/minecraft/client/gl/Framebuffer;Ljava/util/function/Consumer;)V",
+            ordinal = 0,
+            argsOnly = true)
     private static Consumer<Text> cancelConsumer(Consumer<Text> consumer) {
         return text -> {};
     }

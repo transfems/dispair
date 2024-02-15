@@ -1,13 +1,16 @@
+/*
+ (C)2024 sylvxa
+ All Rights Reserved
+*/
 package lgbt.sylvia.dispair.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import java.io.File;
+import java.io.IOException;
 import lgbt.sylvia.dispair.Dispair;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.texture.NativeImage;
-
-import java.io.File;
-import java.io.IOException;
 
 public class ScreenshotHelper {
     public static File write(File out) {

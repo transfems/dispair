@@ -1,3 +1,7 @@
+/*
+ (C)2024 sylvxa
+ All Rights Reserved
+*/
 package lgbt.sylvia.dispair.mixin;
 
 import lgbt.sylvia.dispair.Dispair;
@@ -18,20 +22,22 @@ public class PauseScreenMixin extends Screen {
         super(title);
     }
 
-    @Unique
-    private Text getMessage() {
+    @Unique private Text getMessage() {
         return Text.of("Dispair is " + (Dispair.config.active ? "§cmuted§r!" : "§aactive§r!"));
     }
 
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
-        CheckboxWidget widget = CheckboxWidget.builder(getMessage(), MinecraftClient.getInstance().textRenderer)
-                .pos(4, 4)
-                .checked(Dispair.config.active)
-                .callback((checkbox, checked) -> {
-            Dispair.config.active = checked;
-            checkbox.setMessage(getMessage());
-        }).build();
+        CheckboxWidget widget =
+                CheckboxWidget.builder(getMessage(), MinecraftClient.getInstance().textRenderer)
+                        .pos(4, 4)
+                        .checked(Dispair.config.active)
+                        .callback(
+                                (checkbox, checked) -> {
+                                    Dispair.config.active = checked;
+                                    checkbox.setMessage(getMessage());
+                                })
+                        .build();
         this.addDrawableChild(widget);
     }
 }

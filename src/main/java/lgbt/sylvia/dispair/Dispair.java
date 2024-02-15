@@ -1,3 +1,7 @@
+/*
+ (C)2024 sylvxa
+ All Rights Reserved
+*/
 package lgbt.sylvia.dispair;
 
 import lgbt.sylvia.dispair.command.PlayerCommand;
@@ -23,16 +27,24 @@ public class Dispair implements ClientModInitializer {
     public void onInitializeClient() {
         if (config.activity.isEmpty()) config.activity = "you play minecraft.";
         try {
-            jda = JDABuilder.createLight(config.token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS).setActivity(Activity.watching(config.activity)).build();
+            jda =
+                    JDABuilder.createLight(
+                                    config.token,
+                                    GatewayIntent.GUILD_MESSAGES,
+                                    GatewayIntent.MESSAGE_CONTENT,
+                                    GatewayIntent.GUILD_MEMBERS)
+                            .setActivity(Activity.watching(config.activity))
+                            .build();
             jda.addEventListener(new MessageListener());
 
             jda.addEventListener(new PlayerCommand());
             jda.addEventListener(new ScreenshotCommand());
 
-            jda.updateCommands().addCommands(
-                    Commands.slash("player", "Get info about the current player."),
-                    Commands.slash("screenshot", "Take a screenshot.")
-            ).queue();
+            jda.updateCommands()
+                    .addCommands(
+                            Commands.slash("player", "Get info about the current player."),
+                            Commands.slash("screenshot", "Take a screenshot."))
+                    .queue();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> Configuration.save(config)));
         } catch (InvalidTokenException e) {
             LOGGER.warn("Token was not provided, inactive.");

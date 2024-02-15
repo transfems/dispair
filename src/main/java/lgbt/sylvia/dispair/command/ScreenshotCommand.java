@@ -2,12 +2,15 @@ package lgbt.sylvia.dispair.command;
 
 import lgbt.sylvia.dispair.listener.MessageListener;
 import lgbt.sylvia.dispair.screen.ConfigScreen;
-import lgbt.sylvia.dispair.util.TextureUtil;
+import lgbt.sylvia.dispair.util.ScreenshotHelper;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import java.io.File;
 import java.util.Objects;
@@ -17,28 +20,33 @@ public class ScreenshotCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        if (event.getName().equals("screenshot")) {
-            MinecraftClient minecraft = MinecraftClient.getInstance();
-            if (minecraft.currentScreen instanceof ConfigScreen) {
-                event.reply("They are configuring Dispair, no peeking!").queue();
-                return;
-            }
+        if (!event.getName().equals("screenshot")) return;
+        MinecraftClient minecraft = MinecraftClient.getInstance();
+        if (minecraft.currentScreen instanceof ConfigScreen) {
+            event.reply("They are configuring Dispair, no peeking!").queue();
+            return;
+        }
 
-            event.deferReply().queue();
+        event.deferReply().queue();
 
-            minecraft.execute(() -> {
-                File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
-                TextureUtil.saveScreenshot(file);
+        minecraft.execute(() -> {
+            File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
+            ScreenshotHelper.write(file);
 
-                FileUpload fileUpload = FileUpload.fromData(file);
-                event.getHook().sendFiles(fileUpload).queue();
-            });
+            FileUpload fileUpload = FileUpload.fromData(file);
+            event.getHook().sendFiles(fileUpload).queue();
+        });
 
-            if (minecraft.player != null) {
-                Text alert = Text.of(String.format("§l§a%s §r§atook a screenshot!", Objects.requireNonNull(event.getInteraction().getMember()).getEffectiveName()));
-                MessageListener.lastSentToPlayer = alert;
-                minecraft.player.sendMessage(alert);
-            }
+        Member member = event.getInteraction().getMember();
+        if (member == null) return;
+        String username = member.getEffectiveName();
+
+        if (minecraft.player != null) {
+            Text alert = Text.translatable("dispair.screenshot.notification", username)
+                    .copy()
+                    .setStyle(Style.EMPTY.withColor(Formatting.GREEN));
+            MessageListener.lastSentToPlayer = alert;
+            minecraft.player.sendMessage(alert);
         }
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -32,29 +33,44 @@ public class MessageListener extends ListenerAdapter {
         minecraft.player.sendMessage(formatted);
     }
 
-    private Text formatDiscordMessage(MessageReceivedEvent event) {
-        Member author = event.getMember();
-        if (author == null) return Text.of("Something went wrong!");
-
+    private Text formatBodyComponent(Member author, Message message) {
         Color color = author.getColor();
         if (color == null) color = Color.WHITE;
 
-        Style style = Style.EMPTY.withColor(color.getRGB());
-        Message message = event.getMessage();
-
         String authorName = author.getEffectiveName();
-        String contentString = message.getContentDisplay();
+        String bodyString = message.getContentDisplay();
+        Text authorComponent = Text.translatable("dispair.format.author", authorName).copy().setStyle(Style.EMPTY.withColor(color.getRGB())
+                .withBold(true));
+        Text bodyComponent = Text.of(bodyString).copy().setStyle(Style.EMPTY.withColor(Formatting.WHITE)
+                .withBold(false));
+        return authorComponent.copy().append(bodyComponent);
+    }
 
-        String body = String.format("§l<%s> §r§f%s", authorName, contentString);
-        Text finished = Text.of(body).copy().setStyle(style);
+    private Text formatAttachmentComponent(Message.Attachment attachment) {
+        ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, attachment.getUrl());
+        Text attachmentComponent = Text.translatable("dispair.format.attachment", attachment.getFileName());
 
-        for (Message.Attachment attachment : event.getMessage().getAttachments()) {
-            ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, attachment.getUrl());
-            String display = String.format(" §n§9<%s>", attachment.getFileName());
-            Text attachmentMessage = Text.of(display).copy().setStyle(Style.EMPTY.withClickEvent(clickEvent));
-            finished = finished.copy().append(attachmentMessage);
+        return attachmentComponent.copy().setStyle(
+               Style.EMPTY.withClickEvent(clickEvent)
+                       .withUnderline(true)
+                       .withColor(Formatting.BLUE)
+       );
+    }
+
+    private Text formatDiscordMessage(MessageReceivedEvent event) {
+        Member author = event.getMember();
+        if (author == null) {
+            Dispair.LOGGER.error("Author of message was null, check your intents!");
+            return null;
         }
 
-        return finished;
+        Message message = event.getMessage();
+        Text body = formatBodyComponent(author, message);
+
+        for (Message.Attachment attachment : event.getMessage().getAttachments()) {
+            body = body.copy().append(formatAttachmentComponent(attachment));
+        }
+
+        return body;
     }
 }

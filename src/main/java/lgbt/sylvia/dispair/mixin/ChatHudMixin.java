@@ -22,7 +22,7 @@ public class ChatHudMixin {
     private final Pattern pattern = Pattern.compile("<(.+)> (.+)");
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", at = @At("TAIL"))
     public void onMessageAdd(Text message, MessageSignatureData signature, MessageIndicator indicator, CallbackInfo ci) {
-        if (Dispair.config.muted) return;
+        if (!Dispair.config.active) return;
         String rawContent = message.getString();
         System.out.println(rawContent);
         if (MessageListener.lastSentToPlayer.getString().equals(rawContent)) return;

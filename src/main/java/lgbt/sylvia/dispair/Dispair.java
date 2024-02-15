@@ -21,7 +21,7 @@ public class Dispair implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        if (config.activity.length() < 1) config.activity = "you play minecraft.";
+        if (config.activity.isEmpty()) config.activity = "you play minecraft.";
         try {
             jda = JDABuilder.createLight(config.token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS).setActivity(Activity.watching(config.activity)).build();
             jda.addEventListener(new MessageListener());

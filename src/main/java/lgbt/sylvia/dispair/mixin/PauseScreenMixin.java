@@ -1,8 +1,7 @@
 package lgbt.sylvia.dispair.mixin;
 
 import lgbt.sylvia.dispair.Dispair;
-import lgbt.sylvia.dispair.gui.CheckAction;
-import lgbt.sylvia.dispair.gui.CheckboxEventWidget;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.CheckboxWidget;
@@ -21,18 +20,18 @@ public class PauseScreenMixin extends Screen {
 
     @Unique
     private Text getMessage() {
-        return Text.of("Dispair is " + (Dispair.config.muted ? "§cmuted§r!" : "§aactive§r!"));
+        return Text.of("Dispair is " + (Dispair.config.active ? "§cmuted§r!" : "§aactive§r!"));
     }
 
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
-        CheckboxEventWidget widget = new CheckboxEventWidget(4, 4, 20, 20, getMessage(), !Dispair.config.muted, new CheckAction() {
-            @Override
-            public void run(CheckboxWidget widget) {
-                Dispair.config.muted = !widget.isChecked();
-                widget.setMessage(getMessage());
-            }
-        });
+        CheckboxWidget widget = CheckboxWidget.builder(getMessage(), MinecraftClient.getInstance().textRenderer)
+                .pos(4, 4)
+                .checked(Dispair.config.active)
+                .callback((checkbox, checked) -> {
+            Dispair.config.active = checked;
+            checkbox.setMessage(getMessage());
+        }).build();
         this.addDrawableChild(widget);
     }
 }

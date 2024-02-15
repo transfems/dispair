@@ -1,7 +1,7 @@
 package lgbt.sylvia.dispair.mixin;
 
 import lgbt.sylvia.dispair.Dispair;
-import lgbt.sylvia.dispair.util.TextureUtil;
+import lgbt.sylvia.dispair.util.ScreenshotHelper;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.minecraft.client.MinecraftClient;
@@ -29,7 +29,7 @@ public class ScreenshotMixin {
     private static void takeScreenshot(Framebuffer framebuffer, CallbackInfoReturnable<NativeImage> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
         File file = new File(screenshotDirectory, Util.getFormattedCurrentTime() + ".png");
-        FileUpload fileUpload = FileUpload.fromData(TextureUtil.saveScreenshot(file));
+        FileUpload fileUpload = FileUpload.fromData(ScreenshotHelper.write(file));
         if (!file.exists()) return;
         TextChannel channel = Dispair.jda.getChannelById(TextChannel.class, Dispair.config.channel);
         if (client.player == null) return;

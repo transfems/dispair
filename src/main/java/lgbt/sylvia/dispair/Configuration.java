@@ -10,18 +10,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Configuration {
-    public boolean muted;
+    public boolean active;
     public String activity;
     public String token;
     public String webhook;
     public String channel;
 
-    public Configuration(String token, String webhook, String channel, String activity, boolean muted) {
+    public Configuration(String token, String webhook, String channel, String activity, boolean active) {
         this.token = token;
         this.webhook = webhook;
         this.channel = channel;
         this.activity = activity;
-        this.muted = muted;
+        this.active = active;
     }
 
     public static void save(Configuration config) {

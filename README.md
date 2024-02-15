@@ -38,6 +38,6 @@ Client-sided Minecraft <-> Discord chat link.
 ## WIP
 
 - [ ] In-game image viewing
-- [ ] Translatable text
+- [x] Translatable text
 - [ ] Better option menus
 - [ ] General cleanup

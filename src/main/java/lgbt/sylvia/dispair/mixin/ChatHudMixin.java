@@ -49,8 +49,8 @@ public class ChatHudMixin {
             MessageListener.lastSentToDiscord = rawContent;
             WebhookMessage webhookMessage =
                     new WebhookMessage(
-                            "Server",
-                            "https://cdn.discordapp.com/attachments/1061469685717139466/1091168011118972998/out-0.png",
+                            null,
+                            null,
                             rawContent);
             webhookMessage.send(Dispair.config.webhook);
         }

@@ -5,13 +5,14 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.jetbrains.annotations.Nullable;
 
 public class WebhookMessage {
     public String icon;
     public String username;
     public String content;
 
-    public WebhookMessage(String username, String icon, String content) {
+    public WebhookMessage(@Nullable String username, @Nullable String icon, String content) {
         this.username = username;
         this.icon = icon;
         this.content = content;
@@ -19,9 +20,9 @@ public class WebhookMessage {
 
     public String toJson() {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("username", this.username);
+        if (this.username != null && !this.username.isEmpty()) jsonObject.addProperty("username", this.username);
+        if (this.icon != null && !this.icon.isEmpty()) jsonObject.addProperty("avatar_url", this.icon);
         jsonObject.addProperty("content", this.content);
-        jsonObject.addProperty("avatar_url", this.icon);
         return jsonObject.toString();
     }
 

@@ -47,11 +47,7 @@ public class ChatHudMixin {
             webhookMessage.send(Dispair.config.webhook);
         } else {
             MessageListener.lastSentToDiscord = rawContent;
-            WebhookMessage webhookMessage =
-                    new WebhookMessage(
-                            null,
-                            null,
-                            rawContent);
+            WebhookMessage webhookMessage = new WebhookMessage(null, null, rawContent);
             webhookMessage.send(Dispair.config.webhook);
         }
     }

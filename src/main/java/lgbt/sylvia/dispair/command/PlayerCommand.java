@@ -5,6 +5,7 @@
 package lgbt.sylvia.dispair.command;
 
 import java.awt.*;
+import lgbt.sylvia.dispair.Dispair;
 import lgbt.sylvia.dispair.listener.MessageListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -23,6 +24,11 @@ public class PlayerCommand extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (!event.getName().equals("player")) return;
+        if (!Dispair.config.active) {
+            event.reply("Dispair is disabled right now.").queue();
+            return;
+        }
+
         MinecraftClient minecraft = MinecraftClient.getInstance();
         ClientPlayerEntity player = minecraft.player;
 

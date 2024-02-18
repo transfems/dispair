@@ -5,6 +5,7 @@
 package lgbt.sylvia.dispair.command;
 
 import java.io.File;
+import lgbt.sylvia.dispair.Dispair;
 import lgbt.sylvia.dispair.listener.MessageListener;
 import lgbt.sylvia.dispair.screen.ConfigScreen;
 import lgbt.sylvia.dispair.util.ScreenshotHelper;
@@ -25,6 +26,11 @@ public class ScreenshotCommand extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (!event.getName().equals("screenshot")) return;
+        if (!Dispair.config.active) {
+            event.reply("Dispair is disabled right now.").queue();
+            return;
+        }
+
         MinecraftClient minecraft = MinecraftClient.getInstance();
         if (minecraft.currentScreen instanceof ConfigScreen) {
             event.reply("They are configuring Dispair, no peeking!").queue();
